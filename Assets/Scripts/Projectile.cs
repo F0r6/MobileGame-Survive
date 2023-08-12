@@ -23,8 +23,9 @@ public class Projectile : MonoBehaviour
         transform.Translate(Vector3.right * speed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
+
         if (other.CompareTag("Enemy")) // Adjust the tag as needed
         {
             Debug.Log("Hit Enem");

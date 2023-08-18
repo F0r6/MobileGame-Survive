@@ -6,16 +6,15 @@ using UnityEngine;
 public class Paralax : MonoBehaviour
 {
     //Declare variables
-    private float length, startposX, startposY;
-    public GameObject cam;
-    public float parallaxEffect;
+    [SerializeField] private float length, startposX, startposY;
+    [SerializeField] private GameObject cam;
+    [SerializeField] private float parallaxEffect;
 
     void Start()
     {
         //Set variables
         startposX = transform.position.x;
         startposY = transform.position.y;
-        length = 40;
     }
 
     void Update()

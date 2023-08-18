@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject EvolutionEssence;
+    public GameObject EnemyPrefab;
     public bool spawnCooldown = false;
-    private static float timerReset = 0.3f;
+    private static float timerReset = 0.2f;
     private float coolDownTimer = timerReset;
 
     Vector3 RandRange;
@@ -21,22 +21,17 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (SceneManager.GetActiveScene().name != "StartMenu")
-        //{
-        RandRange = (Vector3)Random.insideUnitCircle.normalized * Random.Range(20, 40);
+        RandRange = (Vector3)Random.insideUnitCircle.normalized * Random.Range(30, 31);
         ApplySpawnCooldown();
- 
-            
-        //}
     }
 
-    void SpawnEvolutionEssense()
+    void SpawnEnemy()
     {
         int rand = Random.Range(1, 2);
         if (rand == 1)
         {
             spawnCooldown = true;
-            Instantiate(EvolutionEssence, transform.position, Quaternion.identity);
+            Instantiate(EnemyPrefab, transform.position, Quaternion.identity);
         }
     }
 
@@ -53,7 +48,7 @@ public class EnemySpawner : MonoBehaviour
 
             transform.position = GameObject.FindGameObjectWithTag("Player").transform.position + RandRange;
 
-            SpawnEvolutionEssense();
+            SpawnEnemy();
             
             coolDownTimer = timerReset;
         }

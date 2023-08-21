@@ -7,7 +7,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject EnemyPrefab;
     public bool spawnCooldown = false;
-    private static float timerReset = 0.2f;
+    private static float timerReset = 0.6f;
     private float coolDownTimer = timerReset;
 
     Vector3 RandRange;

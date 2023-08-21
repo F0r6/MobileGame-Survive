@@ -35,14 +35,17 @@ public class FireAtNearestEnemy : MonoBehaviour
 
     GameObject FindNearestEnemy()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy"); // Tag your enemies appropriately
-        GameObject nearestEnemy = null;
-        float nearestDistance = Mathf.Infinity;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy"); // Finds all GameObjects with the tag "Enemy" and stores them in an array
+        GameObject nearestEnemy = null;                                    // State the nearest enemy to be null
+        float nearestDistance = Mathf.Infinity;                            // Declare float variable to calculate closest target
 
+        // Check all of the GameOjects in array of enemies to find the nearest GameObject
         foreach (GameObject enemy in enemies)
         {
+            // Calculates distance to enemy
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distanceToEnemy < nearestDistance)
+
+            if (distanceToEnemy-20 < nearestDistance)
             {
                 nearestDistance = distanceToEnemy;
                 nearestEnemy = enemy;

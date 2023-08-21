@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     [SerializeField] private float _moveSpeed;
+    [SerializeField] private float radius = 10.0f;
 
     public GameObject _projectilePrefab;
 
@@ -18,6 +19,9 @@ public class PlayerController : MonoBehaviour
 
     private Transform _nearestEnemy;
     private float lastFireTime;
+
+    public LayerMask objLayerMask;
+
 
     private void FixedUpdate()
     {
@@ -28,7 +32,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
         if (_nearestEnemy != null && Time.time - lastFireTime >= 1f / _fireRate)
         {
             _nearestEnemy.GetComponentInChildren<SpriteRenderer>().material.color = Color.red;
@@ -69,5 +72,11 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = direction * _projectileSpeed;
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

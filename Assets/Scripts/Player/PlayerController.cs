@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float radius = 10.0f;
+    [SerializeField] private float distBetween;
 
     public GameObject _projectilePrefab;
 
@@ -22,23 +23,12 @@ public class PlayerController : MonoBehaviour
 
     public LayerMask objLayerMask;
 
-
     private void FixedUpdate()
     {
         _rigidbody2D.velocity = new Vector2(_joystick.Horizontal * _moveSpeed, _joystick.Vertical * _moveSpeed);
-
         FindNearestEnemy();
-    }
 
-    private void Update()
-    {
-        if (_nearestEnemy != null && Time.time - lastFireTime >= 1f / _fireRate)
-        {
-            _nearestEnemy.GetComponentInChildren<SpriteRenderer>().material.color = Color.red;
-
-            FireProjectile();
-            lastFireTime = Time.time;
-        }
+        
     }
 
     private void FindNearestEnemy()
@@ -54,22 +44,36 @@ public class PlayerController : MonoBehaviour
             {
                 closestDistance = distance;
                 _nearestEnemy = enemy.transform;
+                _nearestEnemy.GetComponentInChildren<SpriteRenderer>().material.color = Color.red;
+
+                if (Time.time - lastFireTime >= 1f / _fireRate)
+                {
+
+                    FireProjectile(distance);
+                    lastFireTime = Time.time;
+                }
             }
+
+            
         }
     }
 
-    private void FireProjectile()
+    private void FireProjectile(float distance)
     {
         if (_projectilePrefab != null && _nearestEnemy != null)
         {
-            Vector2 direction = (_nearestEnemy.position - transform.position).normalized;
-            GameObject projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
-            projectile.transform.right = direction;
-            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-
-            if (rb != null)
+            if(distance < distBetween)
             {
-                rb.velocity = direction * _projectileSpeed;
+
+                Vector2 direction = (_nearestEnemy.position - transform.position).normalized;
+                GameObject projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
+                projectile.transform.right = direction;
+                Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+
+                if (rb != null)
+                {
+                    rb.velocity = direction * _projectileSpeed;
+                }
             }
         }
     }

@@ -1,20 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 50;
-    public int currentHealth;
+    [SerializeField] private int maxHealth = 50;
 
-    private void Start()
+    public int currentHealth { get; private set; }
+    public bool isDead { get; private set; }
+
+    // Subscribe to these from UI, score, VFX, etc.
+    public event Action<int, int> OnHealthChanged;  // (current, max)
+    public event Action OnDeath;
+
+    private void Awake()
     {
         currentHealth = maxHealth;
-    }
-
-    private void Update()
-    {
-        
     }
 
     public void TakeDamage(int damageAmount)
@@ -30,7 +32,8 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        // Handle enemy death, such as playing death animation, dropping items, or adding score
-        Destroy(gameObject); // Destroy the enemy GameObject
+        isDead = true;
+        OnDeath?.Invoke();
+        Destroy(gameObject);
     }
 }
